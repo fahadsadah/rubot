@@ -11,4 +11,5 @@ rawsend('USER Rubot * * :Rubot') #CONFIG: Username, realname
 while ($line = $irc_connection.gets) do
   puts "<-- #{$line}"
   rawsend("PONG #{$line.split[1]}") if $line.split[0] == 'PING'
+  rawsend("JOIN #{$line.split[3]}") if $line.split[1] == 'INVITE'
 end
