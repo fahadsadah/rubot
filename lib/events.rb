@@ -10,8 +10,8 @@ class Hook
 end
 
 # This is only a shortcut
-def on(*args)
-  return Hook.new(*args)
+def on(event, &callback)
+  return Hook.new(event, &callback)
 end
 
 def fireevent(event, arguments)
