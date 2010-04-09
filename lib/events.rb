@@ -3,7 +3,7 @@ class Hook
   def self.hooks
     @@hooks
   end
-  def initialize(event, callback)
+  def initialize(event, &callback)
     #Add the hook to the list of hooks
     @@hooks << {:event => event, :callback => callback}
   end
