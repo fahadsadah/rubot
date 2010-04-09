@@ -12,14 +12,14 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'Rubot'
-  s.version = '0.0.1'
+  s.version = 'devel'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README', 'LICENSE']
-  s.summary = 'Your summary here'
+  s.summary = 'A very modular, very simple IRC bot framework in Ruby'
   s.description = s.summary
-  s.author = ''
-  s.email = ''
-  # s.executables = ['your_executable_here']
+  s.author = 'Fahad Sadah'
+  s.email = 'fahadsadah@gmail.com'
+  s.executables = ['lib/main.rb']
   s.files = %w(LICENSE README Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
   s.require_path = "lib"
   s.bindir = "bin"
