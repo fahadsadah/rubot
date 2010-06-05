@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require 'socket'
 require 'events.rb'
-require 'builtinhandlers.rb'
+require 'hooks.rb'
 #TODO: Configurability
 $irc_connection = TCPSocket.open('irc.cluenet.org', 6667) #CONFIG: Connection details
 def rawsend (line)
