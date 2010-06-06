@@ -12,7 +12,7 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'Rubot'
-  s.version = 'devel'
+  s.version = '0.0.1'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README', 'LICENSE']
   s.summary = 'A very modular, very simple IRC bot framework in Ruby'
