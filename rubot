@@ -6,13 +6,13 @@ require 'lib/hooks.rb'
 
 $config = YAML.load_file('config.yml') #Read config.yml into a hash
 
-$irc_connection = TCPSocket.open($config[:connection][:server], $config[:connection][:port])
+$irc_connection = TCPSocket.open($config['connection']['server'], $config['connection']['port'])
 def rawsend (line)
   puts "--> #{line}"
   $irc_connection.puts(line)
 end
-rawsend("NICK #{$config[:connection][:nickname]}")
-rawsend("USER #{$config[:connection][:username]} * * :#{$config[:connection][:realname]}")
+rawsend("NICK #{$config['connection']['nickname']}")
+rawsend("USER #{$config['connection']['username']} * * :#{$config['connection']['realname']}")
 while ($line = $irc_connection.gets) do
   $line.slice! ':' if $line[0] = ':'
   puts "<-- #{$line}"
