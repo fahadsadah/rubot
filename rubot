@@ -14,7 +14,9 @@ end
 rawsend("NICK #{$config[:connection][:nickname]}")
 rawsend("USER #{$config[:connection][:username]} * * :#{$config[:connection][:realname]}")
 while ($line = $irc_connection.gets) do
+  $line.slice! ':' if $line[0] = ':'
   puts "<-- #{$line}"
   fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
   fireevent(:invite, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0], :host => $line.split[0].split('@')[1], :channel => $line.split[3].slice(':')}) if $line.split[1] == 'INVITE'
+  fireevent(:privmsg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0], :host => $line.split[0].split('@')[1], :channel => $line.split[2]}, :message => $line.split(' ', 4)[3].slice(':')) if $line.split[1] == 'PRIVMSG'
 end
