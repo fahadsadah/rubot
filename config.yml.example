@@ -1,0 +1,11 @@
+connection:
+    server: irc.freenode.net
+    port: 6667
+    nickname: Rubot
+    username: rubot
+    realname: Rubot
+    
+invite:
+    join: yes
+    announce: yes
+    message: Hello $chan! I was invited by $nick.
