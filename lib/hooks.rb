@@ -1,1 +1,0 @@
-on(:ping) { |e| rawsend("PONG #{e[:token]}") }
