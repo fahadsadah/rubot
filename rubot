@@ -4,7 +4,11 @@ require 'yaml'
 require 'lib/events.rb'
 require 'lib/hooks.rb'
 
+#Load configuration
 $config = YAML.load_file('config.yml')
+
+#and scripts
+Dir[File.dirname(__FILE__) + '/scripts/*.rb'].each { |file| require file }
 
 $irc_connection = TCPSocket.open($config['connection']['server'], $config['connection']['port'])
 def rawsend (line)
