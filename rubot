@@ -4,7 +4,7 @@ require 'yaml'
 require 'lib/events.rb'
 require 'lib/hooks.rb'
 
-$config = YAML.load_file('config.yml') #Read config.yml into a hash
+$config = YAML.load_file('config.yml')
 
 $irc_connection = TCPSocket.open($config['connection']['server'], $config['connection']['port'])
 def rawsend (line)
@@ -14,10 +14,11 @@ end
 rawsend("NICK #{$config['connection']['nickname']}")
 rawsend("USER #{$config['connection']['username']} * * :#{$config['connection']['realname']}")
 while ($line = $irc_connection.gets) do
+	#Remove trailing :, if present
 	$line.slice! ':' if $line[0] == ':'
 	puts "<-- #{$line}"
 	
-	#The [1..-1] after some strings below simply removes the first character (:)
+	#The [1..-1] after some strings below removes the first character (:)
 	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
 	fireevent(:invite, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0], :host => $line.split[0].split('@')[1], :channel => $line.split[3][1..-1]}) if $line.split[1] == 'INVITE'
 	fireevent(:privmsg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0], :host => $line.split[0].split('@')[1], :channel => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]}) if $line.split[1] == 'PRIVMSG'
