@@ -1,0 +1,1 @@
+on(:invite) { |e| rawsend("JOIN #{e[:channel]}") }
