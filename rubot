@@ -19,7 +19,7 @@ rawsend("NICK #{$config['connection']['nickname']}")
 rawsend("USER #{$config['connection']['username']} * * :#{$config['connection']['realname']}")
 while ($line = $irc_connection.gets) do
 	#Remove trailing :, if present
-	$line.slice! ':' if $line[0] == ':'
+	$line.slice! ':' if $line[0] == 58
 	puts "<-- #{$line}"
 	
 	#The [1..-1] after some strings below removes the first character (:)
