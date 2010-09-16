@@ -9,3 +9,6 @@ invite:
     join: yes
     announce: yes
     message: Hello $chan! I was invited by $nick.
+    
+command:
+    trigger: \
