@@ -11,7 +11,7 @@ end
 
 # This is only a shortcut
 def on(event, conditions=false, &callback)
-	return Hook.new(event, &callback)
+	return Hook.new(event, conditions, &callback)
 end
 
 def fireevent(event, arguments)
