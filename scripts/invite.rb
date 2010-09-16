@@ -1,4 +1,4 @@
-on :invite do
+on(:invite) do
 	|e|
 	if $config['invite']['join']
 		rawsend("JOIN #{e[:channel]}")

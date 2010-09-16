@@ -1,4 +1,4 @@
-on :privmsg do
+on(:privmsg) do
 	|e|
 	if e[:message].split[0][0].chr == $config['command']['trigger']
 		arguments = e
