@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require 'socket'
 require 'yaml'
+require 'command.rb'
 require 'events.rb'
 
 #Load configuration
