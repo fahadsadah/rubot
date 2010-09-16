@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 require 'socket'
 require 'yaml'
-require 'command.rb'
 require 'events.rb'
+require 'command.rb'
 
 #Load configuration
 $config = YAML.load_file('config.yml')
