@@ -9,9 +9,14 @@ class Hook
 	end
 end
 
-# This is only a shortcut
+# Syntactic sugar - preferred to Hook.new
 def on(event, conditions=false, &callback)
 	return Hook.new(event, conditions, &callback)
+end
+
+# Syntactic sugar - preferred to on(:command)
+def command(command, conditions={}, &callback)
+	return Hook.new(:command, conditions.merge {:command => command.to_s}, &callback)
 end
 
 def fireevent(event, arguments)
