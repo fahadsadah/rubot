@@ -16,7 +16,7 @@ end
 
 # Syntactic sugar - preferred to on(:command)
 def command(command, conditions={}, &callback)
-	return Hook.new(:command, conditions.merge {:command => command.to_s}, &callback)
+	return Hook.new(:command, conditions.merge({:command => command.to_s}), &callback)
 end
 
 def fireevent(event, arguments)
