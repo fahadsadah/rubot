@@ -24,7 +24,6 @@ def fireevent(event, arguments)
 		if hook[:event] == event
 			if !hook[:conditions]
 				hook[:callback].call(arguments)
-				puts "#{event} hook triggered: #{arguments}"
 			else
 				fire = true
 				hook[:conditions].each do
@@ -32,7 +31,6 @@ def fireevent(event, arguments)
 					fire = false if arguments[k] != v
 				end
 				hook[:callback].call(arguments) if fire
-				puts "#{event} hook triggered: #{arguments}"
 			end
 		end
 	}
