@@ -28,7 +28,7 @@ def fireevent(event, arguments)
 				fire = true
 				hook[:conditions].each do
 					|k,v|
-					fire = false if arguments[k] != v
+					fire = false unless arguments[k] == v
 				end
 				hook[:callback].call(arguments) if fire
 			end
