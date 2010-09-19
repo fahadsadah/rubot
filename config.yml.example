@@ -1,3 +1,5 @@
+verbose: false
+
 connection:
     server: irc.freenode.net
     port: 6667

@@ -4,6 +4,10 @@ require 'yaml'
 require 'events.rb'
 require 'command.rb'
 
+def vprint(string)
+	puts string if $config['verbose']
+end
+
 #Load configuration
 $config = YAML.load_file('config.yml')
 
@@ -12,7 +16,7 @@ Dir[File.dirname(__FILE__) + '/scripts/*'].each { |file| require file }
 
 $irc_connection = TCPSocket.open($config['connection']['server'], $config['connection']['port'])
 def rawsend (line)
-	puts "--> #{line}"
+	vprint "--> #{line}"
 	$irc_connection.puts(line)
 end
 rawsend("NICK #{$config['connection']['nickname']}")
@@ -21,7 +25,7 @@ on(:ping) { |e| rawsend("PONG #{e[:token]}") }
 while ($line = $irc_connection.gets) do
 	#Remove trailing :, if present
 	$line.slice! ':' if $line[0] == 58
-	puts "<-- #{$line}"
+	vprint "<-- #{$line}"
 	
 	#The [1..-1] after some strings below removes the first character (:)
 	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
