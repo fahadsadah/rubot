@@ -29,5 +29,12 @@ while ($line = $irc_connection.gets) do
 	#The [1..-1] after some strings below removes the first character (:)
 	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
 	fireevent(:invite, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[3][1..-1]}) if $line.split[1] == 'INVITE'
-	fireevent(:msg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]}) if $line.split[1] == 'PRIVMSG'
+	
+	if $line.split[1] == 'PRIVMSG'
+		if $line.split(/ /)[3][1] == 1.chr
+			fireevent(:ctcp, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :target => $line.split[2], :command => $line.split[3][2..-1], :arguments => $line.split(' ', 5)[4][1..-1]})
+		else
+			fireevent(:msg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]})
+		end
+	end
 end
