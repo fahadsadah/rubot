@@ -29,5 +29,5 @@ while ($line = $irc_connection.gets) do
 	#The [1..-1] after some strings below removes the first character (:)
 	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
 	fireevent(:invite, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[3][1..-1]}) if $line.split[1] == 'INVITE'
-	fireevent(:privmsg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]}) if $line.split[1] == 'PRIVMSG'
+	fireevent(:msg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]}) if $line.split[1] == 'PRIVMSG'
 end
