@@ -23,9 +23,11 @@ rawsend("NICK #{$config['connection']['nickname']}")
 rawsend("USER #{$config['connection']['username']} * * :#{$config['connection']['realname']}")
 on(:ping) { |e| rawsend("PONG #{e[:token]}") }
 on(:ctcp, {:command => 'ACTION'}) { |e| fireevent(:action, e) }
+on(:line) { |e| vprint "<-- #{e[:line]}"}
 while ($line = $irc_connection.gets) do
 	$line.slice! ':' if $line[0].chr == ':'
-	vprint "<-- #{$line}"
+	
+	fireevent(:line, {:line => $line})
 	
 	#The [1..-1] after some strings below removes the first character (:)
 	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
