@@ -3,6 +3,7 @@ require 'socket'
 require 'yaml'
 require 'events.rb'
 require 'command.rb'
+require '005.rb'
 
 def vprint(string)
 	puts string if $config['verbose']
@@ -15,29 +16,29 @@ $config = YAML.load_file('config.yml')
 Dir[File.dirname(__FILE__) + '/scripts/*'].each { |file| require file }
 
 $irc_connection = TCPSocket.open($config['connection']['server'], $config['connection']['port'])
-def rawsend (line)
-	vprint "--> #{line}"
-	$irc_connection.puts(line)
+def rawsend (message)
+	vprint "--> #{message}"
+	$irc_connection.puts(message)
 end
 rawsend("NICK #{$config['connection']['nickname']}")
 rawsend("USER #{$config['connection']['username']} * * :#{$config['connection']['realname']}")
 on(:ping) { |e| rawsend("PONG #{e[:token]}") }
 on(:ctcp, {:command => 'ACTION'}) { |e| fireevent(:action, e) }
 on(:line) { |e| vprint "<-- #{e[:line]}"}
-while ($line = $irc_connection.gets) do
-	$line.slice! ':' if $line[0].chr == ':'
+while (line = $irc_connection.gets) do
+	line.slice! ':' if line[0].chr == ':'
 	
-	fireevent(:line, {:line => $line})
+	fireevent(:line, {:line => line})
 	
 	#The [1..-1] after some strings below removes the first character (:)
-	fireevent(:ping, {:token => $line.split[1]}) if $line.split[0] == 'PING'
-	fireevent(:invite, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :channel => $line.split[3][1..-1]}) if $line.split[1] == 'INVITE'
+	fireevent(:ping, {:token => line.split[1]}) if line.split[0] == 'PING'
+	fireevent(:invite, {:nick => line.split[0].split('!')[0], :user => line.split[0].split('@')[0].split('!')[1], :host => line.split[0].split('@')[1], :channel => line.split[3][1..-1]}) if line.split[1] == 'INVITE'
 	
-	if $line.split[1] == 'PRIVMSG'
-		if $line.split(' ')[3][1] == 1
-			fireevent(:ctcp, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :target => $line.split[2], :command => $line.split[3][2..-1], :arguments => $line.split(' ', 5)[4][0..-2]})
+	if line.split[1] == 'PRIVMSG'
+		if line.split(' ')[3][1] == 1
+			fireevent(:ctcp, {:nick => line.split[0].split('!')[0], :user => line.split[0].split('@')[0].split('!')[1], :host => line.split[0].split('@')[1], :target => line.split[2], :command => line.split[3][2..-1], :arguments => line.split(' ', 5)[4][0..-2]})
 		else
-			fireevent(:msg, {:nick => $line.split[0].split('!')[0], :user => $line.split[0].split('@')[0].split('!')[1], :host => $line.split[0].split('@')[1], :target => $line.split[2], :message => $line.split(' ', 4)[3][1..-1]})
+			fireevent(:msg, {:nick => line.split[0].split('!')[0], :user => line.split[0].split('@')[0].split('!')[1], :host => line.split[0].split('@')[1], :target => line.split[2], :message => line.split(' ', 4)[3][1..-1]})
 		end
 	end
 end
