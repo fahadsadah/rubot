@@ -23,6 +23,9 @@ def process_005(params)
 	return retval
 end
 
+#default ISUPPORT header for RFC1459-compliant servers.
+$ISUPPORT.merge! process_005 "CASEMAPPING=rfc1459 CHANNELLEN=200 CHANTYPES=#& MODES=3 NICKLEN=9 PREFIX=(ov)@+ TARGMAX"
+
 on(:line) do
 	|e|
 	if e[:line].split[1] == '005'
@@ -41,6 +44,3 @@ on(:line) do
 		$ISUPPORT.merge! process_005 params
 	end
 end
-
-#default ISUPPORT header for RFC1459-compliant servers.
-$ISUPPORT.merge! process_005 "CASEMAPPING=rfc1459 CHANNELLEN=200 CHANTYPES=#& MODES=3 NICKLEN=9 PREFIX=(ov)@+ TARGMAX"
